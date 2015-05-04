@@ -1,0 +1,142 @@
+<!--
+  # input-text
+
+  用户文本输入
+
+  ## Attributes
+
+  * `name`
+  * `type`: `text|password`
+  * `multi`: 是否多行 (textarea)
+  * `rows`: 多行情况下的展示行数
+  * `label`: 可以为空
+  * `placeholder`
+  * `value`
+  * `valueAsNumber`: 以 `value` 为主并与其保持同步，可读写
+  * `valueAsDate`: 以 `value` 为主并与其保持同步，可读写
+
+  ## Example
+
+  ```html
+  <z-input-text value="" label="..." placeholder="...">
+    <p>description</p>
+    <z-validator pattern="email"></z-validator>
+    <z-tooltip attach="parent" side="right">...</z-tooltip>
+    <z-datalist ...>...</z-datalist>
+  </z-input-text>
+  ```
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+
+<polymer-element name="z-input-text" attributes="multi, rows, type, value, name, placeholder, label">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+      }
+
+      .ctrl {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 5px 10px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #000;
+        vertical-align: middle;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+      }
+      .ctrl:focus {
+        border-color: #66afe9;
+        outline: 2px #66afe9 solid;
+        -webkit-box-shadow: none;
+                box-shadow: none;
+      }
+      .ctrl:-moz-placeholder {
+        color: #999999;
+      }
+      .ctrl::-moz-placeholder {
+        color: #999999;
+        opacity: 1;
+      }
+      .ctrl:-ms-input-placeholder {
+        color: #999999;
+      }
+      .ctrl::-webkit-input-placeholder {
+        color: #999999;
+      }
+
+      :host([disabled]) .ctrl,
+      :host([readonly]) .ctrl,
+      :host-context(fieldset[disabled]) .ctrl {
+        cursor: not-allowed;
+        background-color: #eeeeee;
+      }
+
+      input.ctrl {
+        height: 32px;
+      }
+      textarea.ctrl {
+        height: auto;
+      }
+
+      .label {
+        padding: 10px 0px;
+        font-weight: bold;
+      }
+      .extra {
+        padding: 5px 0;
+        font-size: 12px;
+      }
+    </style>
+    <template if="{{label}}"><div class="label">{{label}}</div></template>
+    <div class="main">
+      <template if="{{!multi}}">
+        <input type="{{type}}" class="ctrl" name="{{name}}" value="{{value}}" on-change="{{change}}" placeholder="{{placeholder}}">
+      </template>
+      <template if="{{multi}}">
+        <textarea rows="{{rows}}" class="ctrl" name="{{name}}" value="{{value}}" on-change="{{change}}" placeholder="{{placeholder}}"></textarea>
+      </template>
+      <div class="extra"><content></content></div>
+    </div>
+  </template>
+  <script>
+      Polymer('z-input-text', {
+
+        label: '',
+
+        name: '',
+
+        type: 'text',
+
+        value: '',
+
+        placeholder: '',
+
+        multi: false,
+
+        rows: 5,
+
+        ready: function () {},
+
+        change: function () {
+          this.fire('change', null);
+        },
+
+        /**
+         * @todo: valueAsNumber
+         */
+        getNumber: function () {},
+
+        /**
+         * @todo: valueAsDate
+         */
+        getDate: function () {}
+      });
+  </script>
+</polymer-element>

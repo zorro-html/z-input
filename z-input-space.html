@@ -1,0 +1,37 @@
+<!--
+  # input-space
+
+  和表单整体相吻合的空结构，比如按钮或更多的控件扩展
+
+  ## Example
+
+  ```html
+  <z-input-space value="" label="..." placeholder="...">
+    <z-btn ...>...</z-btn>
+  </z-input-space>
+  ```
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+
+<polymer-element name="z-input-space" attributes="" noscript>
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+      }
+      .label {
+        padding: 10px 0px;
+        font-weight: bold;
+      }
+      .main {
+        padding: 5px 0;
+        box-sizing: border-box;
+        font-size: 14px;
+        line-height: 1.428571429;
+      }
+    </style>
+    <div class="label">{{label}}</div>
+    <div class="main"><content></content></div>
+  </template>
+</polymer-element>

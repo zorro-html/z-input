@@ -1,0 +1,169 @@
+<!--
+
+<style>
+    #test-form,
+    z-form {
+        width: 320px;
+        margin: 20px auto;
+    }
+    #test-form z-input-text,
+    #test-form z-input-select {
+        display: block;
+    }
+</style>
+
+<z-form oneline style="width: 100%;">
+  <z-input-text name="username" label="Username" placeholder="Username"></z-input-text>
+  <z-input-text name="password" type="password" label="Password" placeholder="Password"></z-input-text>
+  <z-input-space label="">
+    <z-btn>Login</z-btn>
+  </z-input-space>
+</z-form>
+
+<z-form>
+  <z-input-text name="username" label="Username" placeholder="Username"></z-input-text>
+  <z-input-text name="password" type="password" label="Password" placeholder="Password"></z-input-text>
+  <z-input-space label="">
+    <z-btn>Login</z-btn>
+  </z-input-space>
+</z-form>
+
+<z-form flatten>
+  <z-input-text name="username" label="Username" placeholder="Username"></z-input-text>
+  <z-input-text name="password" type="password" label="Password" placeholder="Password"></z-input-text>
+  <z-input-space label="">
+    <z-btn>Login</z-btn>
+  </z-input-space>
+</z-form>
+
+<div id="test-form">
+  <z-input-text id="test-input" label="姓名" placeholder="2~4个汉字" value="Nick">extra info ...</z-input-text>
+  <z-input-text label="个人介绍" placeholder="140个字以内" value="Personal&#10;Introduction" multi>extra info ...</z-input-text>
+
+  <z-input-select flatten="false" name="a" label="Select" value="green">
+    <z-datalist id="test-datalist">
+      <option value="red">Red</option>
+      <option value="green">Green</option>
+    </z-datalist>
+    description
+  </z-input-select>
+
+  <z-input-select flatten="false" name="c" multi label="Multiple Select" values='["female"]'>
+    <z-datalist>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </z-datalist>
+    description
+  </z-input-select>
+
+  <z-input-select flatten="true" name="b" label="Flatten Select" value="option2">
+    <z-datalist>
+      <option value="option1">Option 1</option>
+      <option value="option2">Option 2</option>
+      <option value="option3">Option 3</option>
+      <option value="option4">Option 4</option>
+      <option value="option5">Option 5</option>
+      <option value="option6">Option 6</option>
+    </z-datalist>
+    description
+  </z-input-select>
+
+  <z-input-select flatten="true" name="d" multi label="Flatten Multiple Select" values='["option2"]'>
+    <z-datalist>
+      <option value="option1">Option 1</option>
+      <option value="option2">Option 2</option>
+      <option value="option3">Option 3</option>
+      <option value="option4">Option 4</option>
+      <option value="option5">Option 5</option>
+      <option value="option6">Option 6</option>
+    </z-datalist>
+    description
+  </z-input-select>
+</div>
+
+<z-datalist>
+  <option value="key1">Value1</option>
+  <option value="key2">Value2</option>
+</z-datalist>
+
+<script>
+  addEventListener('polymer-ready', function () {
+    var input = document.querySelector('#test-input');
+
+    input.addEventListener('change', function (e) {
+      console.log('change', this.value);
+    });
+    input.addEventListener('input', function (e) {
+      console.log('input', this.value);
+    });
+    input.addEventListener('click', function (e) {
+      console.log('click', this.value);
+    });
+    input.addEventListener('focus', function (e) {
+      console.log('focus', this.value);
+    });
+    input.addEventListener('blur', function (e) {
+      console.log('blur', this.value);
+    });
+
+    Array.prototype.forEach.call(document.querySelectorAll('z-input-select'), function (input) {
+      input.addEventListener('change', function (e) {
+        console.log('change', this.name, this.value);
+      });
+      input.addEventListener('changes', function (e) {
+        console.log('changes', this.name, this.values);
+      });
+      input.addEventListener('focus', function (e) {
+        console.log('focus', this.name, this.value);
+      });
+      input.addEventListener('blur', function (e) {
+        console.log('blur', this.name, this.value);
+      });
+    });
+
+    var datalist = document.querySelector('#test-datalist');
+    console.log(datalist.value);
+    setTimeout(function () {
+      var option = document.createElement('option');
+      option.setAttribute('value', 'blue');
+      option.textContent = 'Blue';
+      datalist.appendChild(option);
+      console.log(datalist.value);
+    }, 1000);
+    datalist.addEventListener('dataupdated', function () {
+      console.log('updated', this.value);
+    });
+
+    var form = document.querySelector('#test-form');
+    var inputText = document.createElement('z-input-text');
+    inputText.name = 'aplus';
+    inputText.value = '123';
+    inputText.label = 'Text Appended';
+    form.appendChild(inputText);
+    setTimeout(function () {
+      inputText.type = 'password';
+    }, 1000);
+    setTimeout(function () {
+      inputText.multi = true;
+    }, 2000);
+
+    var inputSelect = document.createElement('z-input-select');
+    inputSelect.name = 'bplus';
+    inputSelect.value = 'option2';
+    inputSelect.label = 'Select Appended';
+    form.appendChild(inputSelect);
+
+    var datalist2 = document.createElement('z-datalist');
+    datalist2.innerHTML = '<option value="option1">Option1</option><option value="option2">Option2</option><option value="option3">Option3</option>';
+    inputSelect.appendChild(datalist2);
+    datalist2.fireUpdate();
+  });
+</script>
+
+-->
+
+<link rel="import" href="z-input-text.html">
+<link rel="import" href="z-input-select.html">
+<link rel="import" href="z-input-space.html">
+<link rel="import" href="z-input-form.html">
+<link rel="import" href="z-datalist.html">
