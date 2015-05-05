@@ -1,0 +1,283 @@
+<!--
+  # input-select
+
+  用户选项输入
+
+  ## Attributes
+
+  * `name`
+  * `multi`: 是否多选
+  * `flatten`: 是否把选项展开显示为 `radio` 或 `checkbox`，默认选项少于等于3个时会自动展开
+  * `label`: 可以为空
+  * `value`
+
+  ## Example
+
+  ```html
+  <z-input-select flatten="false" label="Gender" value="">
+    <z-datalist ...>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </z-datalist>
+    <p>description</p>
+    <z-tooltip attach="parent" side="right">...</z-tooltip>
+  </z-input-select>
+  ```
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+
+<polymer-element name="z-input-select" attributes="multi, flatten, value, values, label, name">
+  <template>
+    <!-- <link rel="stylesheet" type="text/css" href="//g.alicdn.com/mtb/lib-bootstrap/3.0.4/bootstrap.css"> -->
+    <style>
+      :host {
+        display: inline-block;
+      }
+
+      .label {
+        padding: 10px 0px;
+        font-weight: bold;
+      }
+      .extra {
+        padding: 5px 0;
+        font-size: 12px;
+      }
+
+      .option {
+        display: block;
+        min-height: 20px;
+        margin: 5px 0;
+        vertical-align: middle;
+      }
+      .option label {
+        display: inline;
+        margin-bottom: 0;
+        font-weight: normal;
+        cursor: pointer;
+      }
+
+      .option input {
+        float: left;
+        margin-left: -20px;
+        -webkit-appearance: none;
+        margin: 4px 4px 0;
+        margin-top: 1px \9;
+        line-height: normal;
+        padding: 0;
+        border: 0;
+        background-color: transparent;
+        box-sizing: border-box;
+      }
+      .option input:focus {
+        outline: 0;
+      }
+
+      .option input::before {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        margin-top: -2px;
+        background: white;
+        border: 1px #aaa solid;
+        border-radius: 2px;
+        content: "";
+        box-sizing: border-box;
+      }
+      .option input[type="radio"]::before {
+        border-radius: 16px;
+      }
+      .option input:hover::before {
+        border-color: #ff9000;
+      }
+      .option input[type="checkbox"]:checked::before {
+        background-color: #ff6600;
+        border-color: #ff6600;
+      }
+      .option input[type="radio"]:checked::before {
+        background: white;
+        border: 4px #ff6600 solid;
+      }
+      .option input[type="checkbox"]:checked:hover::before {
+        background: #ff9000;
+      }
+      .option input[type="checkbox"]:checked::after {
+        position: absolute;
+        width: 11px;
+        height: 7px;
+        border: 2px transparent solid;
+        border-bottom-color: white;
+        border-left-color: white;
+        content: "";
+        -webkit-transform: translate(-13px, 0) rotate(-50deg);
+           -moz-transform: translate(-13px, 0) rotate(-50deg);
+            -ms-transform: translate(-13px, 0) rotate(-50deg);
+             -o-transform: translate(-13px, 0) rotate(-50deg);
+                transform: translate(-13px, 0) rotate(-50deg);
+        -webkit-box-sizing: border-box;
+           -moz-box-sizing: border-box;
+                box-sizing: border-box;
+      }
+      .option input[type="radio"]:checked::after {
+        position: absolute;
+        display: inline-block;
+        margin-top: 4px;
+        margin-left: -10px;
+        border: 2px #ff6600 solid;
+        border-radius: 2px;
+        content: "";
+        -webkit-box-sizing: border-box;
+           -moz-box-sizing: border-box;
+                box-sizing: border-box;
+      }
+      select {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 5px 10px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #000;
+        vertical-align: middle;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+        height: 36px;
+      }
+      select:focus {
+        border-color: #66afe9;
+        outline: 2px #66afe9 solid;
+        -webkit-box-shadow: none;
+                box-shadow: none;
+      }
+      select[multiple] {
+        height: 10em;
+      }
+      select[multiple] > option {
+        padding: 10px;
+        border-radius: 2px;
+        margin: 1px -5px;
+      }
+    </style>
+    <template if="{{label}}"><div class="label">{{label}}</div></template>
+    <div class="main">
+      <template if="{{isFlatten}}">
+        <template if="{{!multi}}">
+          <template repeat="{{option, index in options}}">
+            <div class="option">
+              <label>
+                <input type="radio" name="{{name}}" value="{{option.value}}" checked="{{option.value === value}}" on-change="{{updateValue}}">
+                {{option.text}}
+              </label>
+            </div>
+          </template>
+        </template>
+        <template if="{{multi}}">
+          <template repeat="{{option, index in options}}">
+            <div class="option">
+              <label>
+                <input type="checkbox" name="{{name}}" value="{{option.value}}" checked="{{isSelected(option.value, values)}}" on-change="{{updateValues}}">
+                {{option.text}}
+              </label>
+            </div>
+          </template>
+        </template>
+      </template>
+      <template if="{{!isFlatten}}">
+        <template if="{{!multi}}">
+          <select value="{{value}}" on-change="{{updateValue}}">
+            <template repeat="{{option, index in options}}">
+              <template if="{{option.value === value}}">
+                <option value="{{option.value}}" selected>{{option.text}}</option>
+              </template>
+              <template if="{{option.value !== value}}">
+                <option value="{{option.value}}">{{option.text}}</option>
+              </template>
+            </template>
+          </select>
+        </template>
+        <template if="{{multi}}">
+          <select value="{{value}}" multiple on-change="{{updateValues}}">
+            <template repeat="{{option, index in options}}">
+              <template if="{{isSelected(option.value, values)}}">
+                <option value="{{option.value}}" selected>{{option.text}}</option>
+              </template>
+              <template if="{{!isSelected(option.value, values)}}">
+                <option value="{{option.value}}">{{option.text}}</option>
+              </template>
+            </template>
+          </select>
+        </template>
+      </template>
+      <div class="extra"><content></content></div>
+    </div>
+  </template>
+  <script>
+      Polymer('z-input-select', {
+        multi: false,
+        flatten: 'auto',
+        isFlatten: false,
+        value: '',
+        values: [],
+        label: '',
+        name: '',
+        options: [],
+        updateOptions: function (e) {
+          this.options = e.detail.list;
+          this.checkFlatten(this.flatten);
+        },
+        ready: function () {
+          if (this.values === this.constructor.prototype.values) {
+            this.values = [];
+          }
+          this.addEventListener('dataupdated', this.updateOptions.bind(this));
+          this.checkFlatten(this.flatten);
+        },
+        flattenChanged: function (o, n) {
+          this.checkFlatten(n);
+        },
+        checkFlatten: function (flatten) {
+          this.isFlatten = flatten === 'true' || (flatten === 'auto' && this.options.length <= 3);
+        },
+        isSelected: function (value, values) {
+          return this.values.indexOf(value) >= 0;
+        },
+        updateValue: function (e) {
+          var target = e.target;
+          this.value = target.value;
+          this.fire('change', null);
+        },
+        updateValues: function (e) {
+          var target = e.target;
+          var values;
+          var valueIndex;
+
+          if (target.selectedOptions) {
+            values = [];
+            Array.prototype.forEach.call(target.selectedOptions, function (option) {
+              if (option.selected) {
+                values.push(option.value);
+              }
+            });
+            this.values = values;
+          }
+          else {
+            valueIndex = this.values.indexOf(target.value);
+            if (target.checked) {
+              if (valueIndex < 0) {
+                this.values.push(target.value);
+              }
+            }
+            else {
+              if (valueIndex >= 0) {
+                this.values.splice(valueIndex, 1);
+              }
+            }
+          }
+          this.fire('changes', null);
+        }
+      });
+  </script>
+</polymer-element>

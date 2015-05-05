@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<title>Zorro Input</title>
+
+<script src="../../webcomponentsjs/webcomponents.js"></script>
+<script src="../../web-component-tester/browser.js"></script>
+<link rel="import" href="../z-input.html">
+
+</head>
+<body>
+
+<script>
+  describe('create element by JavaScript', function () {
+
+    it('should create a text input', function (done) {
+        var inputText = document.createElement('z-input-text');
+        inputText.name = 'textA';
+        inputText.value = '1';
+
+        expect(inputText).is.an.instanceof(HTMLElement);
+
+        expect(inputText).has.property('type');
+        expect(inputText).has.property('name');
+        expect(inputText).has.property('value');
+        expect(inputText).has.property('multi');
+
+        expect(inputText.type).is.equal('text');
+        expect(inputText.multi).is.false;
+        expect(inputText.name).is.equal('textA');
+        expect(inputText.value).is.equal('1');
+
+        expect(inputText.shadowRoot).is.an.instanceof(ShadowRoot);
+        expect(inputText.shadowRoot.querySelector('input')).is.an.instanceof(HTMLElement);
+        expect(inputText.shadowRoot.querySelector('input').type).is.equal('text');
+
+        setTimeout(function () { // could not render immediately but will do it very soon
+            expect(inputText.shadowRoot.querySelector('input').value).is.equal('1');
+            done();
+        }, 100);
+    });
+
+    it('should create a select input', function () {
+        var inputSelect = document.createElement('z-input-select');
+        inputSelect.name = 'selectB';
+        inputSelect.value = 'option2';
+
+        var datalist = document.createElement('z-datalist');
+        datalist.innerHTML = '<option value="option1">Option1</option><option value="option2">Option2</option><option value="option3">Option3</option>';
+        inputSelect.appendChild(datalist);
+        datalist.fireUpdate();
+
+        expect(inputSelect).is.an.instanceof(HTMLElement);
+        expect(datalist).is.an.instanceof(HTMLElement);
+
+        expect(inputSelect).has.property('name');
+        expect(inputSelect).has.property('value');
+        expect(inputSelect).has.property('values');
+        expect(inputSelect).has.property('flatten');
+        expect(inputSelect).has.property('multi');
+        expect(inputSelect).has.property('isFlatten');
+
+        expect(inputSelect.name).is.equal('selectB');
+        expect(inputSelect.value).is.equal('option2');
+        expect(inputSelect.flatten).is.equal('auto');
+        expect(inputSelect.multi).is.false;
+        expect(inputSelect.isFlatten).is.true;
+
+        var options = Array.prototype.slice.call(inputSelect.shadowRoot.querySelectorAll('input'));
+        options.forEach(function (option, index) {
+            expect(option).is.an.instanceof(HTMLElement);
+            expect(option.name).is.equal('selectB');
+            expect(option.value).is.equal('option' + (index + 1));
+            if (option.value === 'option2') {
+              expect(option.checked).is.true;
+            }
+            else {
+              expect(option.checked).is.false;
+            }
+        });
+    });
+  });
+</script>
+
+</body>
+</html>

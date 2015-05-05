@@ -1,0 +1,83 @@
+<!--
+  # datalist
+
+  用户文本输入选项/提示
+
+  * 可以是`<option>`的列表
+  * 也可以绑定一个JavaScript数组
+  * (未来)可以约定某种服务端接口格式
+
+  ## Attributes
+
+  * `value[{value, text, default}]`
+
+  ## Events
+
+  * `change`
+  * `input`
+
+  ## Bind ShadowRoot
+
+  * `dataupdated`
+
+  ## Example
+
+  ```html
+  <z-datalist>
+    <option value="key1">Text1</option>
+    <option value="key2">Text2</option>
+  </z-datalist>
+
+  <script>
+    console.log(datalist.value);
+    datalist.addEventListener('dataupdated', function () {
+      console.log('updated', this.value);
+    });
+  </script>
+  ```
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+
+<polymer-element name="z-datalist" attributes="">
+  <template>
+    <style>:host {display: none;}</style>
+    <content></content>
+  </template>
+  <script>
+      Polymer('z-datalist', {
+        value: null,
+
+        readOptions: function () {
+          var options = Array.prototype.slice.call(this.querySelectorAll('option'));
+          var value = this.value;
+          value.length = 0;
+          options.forEach(function (option) {
+            value.push({
+              value: option.getAttribute('value'),
+              text: option.textContent,
+              'default': !!option.getAttribute('selected')
+            });
+          });
+          this.fireUpdate();
+        },
+
+        fireUpdate: function () {
+          this.fire('dataupdated', {list: this.value});
+        },
+
+        ready: function () {
+          var self = this;
+
+          this.value = [];
+          this.readOptions();
+
+          var observer = new MutationObserver(this.readOptions.bind(this));
+          var config = { attributes: false, childList: true, characterData: true, subtree: true };
+          observer.observe(this, config);
+
+          // this.addEventListener('DOMSubtreeModified', this.readOptions.bind(this));
+        }
+      });
+  </script>
+</polymer-element>

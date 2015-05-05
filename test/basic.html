@@ -1,0 +1,331 @@
+<!doctype html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<title>Zorro Input</title>
+
+<script src="../../webcomponentsjs/webcomponents.js"></script>
+<script src="../../web-component-tester/browser.js"></script>
+<link rel="import" href="../z-input.html">
+
+</head>
+<body>
+
+<z-input-text type="text" name="textA" value="1"></z-input-text>
+<z-input-text type="password" name="textB" value="2"></z-input-text>
+<z-input-text multi name="textC" value="3&#10;4"></z-input-text>
+
+<z-input-select name="selectAuto" value="option2">
+  <z-datalist>
+    <option value="option1">Option 1</option>
+    <option value="option2">Option 2</option>
+    <option value="option3">Option 3</option>
+  </z-datalist>
+</z-input-select>
+
+<z-input-select name="selectAuto2" value="option2">
+  <z-datalist>
+    <option value="option1">Option 1</option>
+    <option value="option2">Option 2</option>
+    <option value="option3">Option 3</option>
+    <option value="option4">Option 4</option>
+    <option value="option5">Option 5</option>
+    <option value="option6">Option 6</option>
+  </z-datalist>
+</z-input-select>
+
+<z-input-select name="selectFlatten" value="option2" flatten="true">
+  <z-datalist>
+    <option value="option1">Option 1</option>
+    <option value="option2">Option 2</option>
+    <option value="option3">Option 3</option>
+  </z-datalist>
+</z-input-select>
+
+<z-input-select name="selectFlatten2" value="option2" flatten="true">
+  <z-datalist>
+    <option value="option1">Option 1</option>
+    <option value="option2">Option 2</option>
+    <option value="option3">Option 3</option>
+    <option value="option4">Option 4</option>
+    <option value="option5">Option 5</option>
+    <option value="option6">Option 6</option>
+  </z-datalist>
+</z-input-select>
+
+<z-input-select name="selectNoFlatten" value="option2" flatten="false">
+  <z-datalist>
+    <option value="option1">Option 1</option>
+    <option value="option2">Option 2</option>
+    <option value="option3">Option 3</option>
+  </z-datalist>
+</z-input-select>
+
+<z-input-select name="selectNoFlatten2" value="option2" flatten="false">
+  <z-datalist>
+    <option value="option1">Option 1</option>
+    <option value="option2">Option 2</option>
+    <option value="option3">Option 3</option>
+    <option value="option4">Option 4</option>
+    <option value="option5">Option 5</option>
+    <option value="option6">Option 6</option>
+  </z-datalist>
+</z-input-select>
+
+<z-input-select name="selectMulti" values='["option2"]' multi>
+  <z-datalist>
+    <option value="option1">Option 1</option>
+    <option value="option2">Option 2</option>
+    <option value="option3">Option 3</option>
+  </z-datalist>
+</z-input-select>
+
+<z-input-select name="selectMulti2" values='["option2"]' multi>
+  <z-datalist>
+    <option value="option1">Option 1</option>
+    <option value="option2">Option 2</option>
+    <option value="option3">Option 3</option>
+    <option value="option4">Option 4</option>
+    <option value="option5">Option 5</option>
+    <option value="option6">Option 6</option>
+  </z-datalist>
+</z-input-select>
+
+<z-input-select name="selectMultiFlatten" values='["option2"]' flatten="true" multi>
+  <z-datalist>
+    <option value="option1">Option 1</option>
+    <option value="option2">Option 2</option>
+    <option value="option3">Option 3</option>
+  </z-datalist>
+</z-input-select>
+
+<z-input-select name="selectMultiFlatten2" values='["option2"]' flatten="true" multi>
+  <z-datalist>
+    <option value="option1">Option 1</option>
+    <option value="option2">Option 2</option>
+    <option value="option3">Option 3</option>
+    <option value="option4">Option 4</option>
+    <option value="option5">Option 5</option>
+    <option value="option6">Option 6</option>
+  </z-datalist>
+</z-input-select>
+
+<z-input-select name="selectMultiNoFlatten" values='["option2"]' flatten="false" multi>
+  <z-datalist>
+    <option value="option1">Option 1</option>
+    <option value="option2">Option 2</option>
+    <option value="option3">Option 3</option>
+  </z-datalist>
+</z-input-select>
+
+<z-input-select name="selectMultiNoFlatten2" values='["option2"]' flatten="false" multi>
+  <z-datalist>
+    <option value="option1">Option 1</option>
+    <option value="option2">Option 2</option>
+    <option value="option3">Option 3</option>
+    <option value="option4">Option 4</option>
+    <option value="option5">Option 5</option>
+    <option value="option6">Option 6</option>
+  </z-datalist>
+</z-input-select>
+
+<script>
+  describe('input text/select element usage', function () {
+    var inputTextList = Array.prototype.slice.call(document.querySelectorAll('z-input-text'));
+
+    it('should has a list of `HTMLElement`', function () {
+      expect(inputTextList).is.an.instanceof(Array)
+      inputTextList.forEach(function (input) {
+        expect(input).is.an.instanceof(HTMLElement);
+      });
+    });
+
+    it('should has correct text value', function () {
+      expect(inputTextList[0]).has.property('type');
+      expect(inputTextList[0]).has.property('name');
+      expect(inputTextList[0]).has.property('value');
+      expect(inputTextList[0]).has.property('multi');
+      expect(inputTextList[0].type).is.equal('text');
+      expect(inputTextList[0].multi).is.false;
+      expect(inputTextList[0].name).is.equal('textA');
+      expect(inputTextList[0].value).is.equal('1');
+
+      expect(inputTextList[1]).has.property('type');
+      expect(inputTextList[1]).has.property('name');
+      expect(inputTextList[1]).has.property('value');
+      expect(inputTextList[1]).has.property('multi');
+      expect(inputTextList[1].type).is.equal('password');
+      expect(inputTextList[1].multi).is.false;
+      expect(inputTextList[1].name).is.equal('textB');
+      expect(inputTextList[1].value).is.equal('2');
+
+      expect(inputTextList[2]).has.property('type');
+      expect(inputTextList[2]).has.property('name');
+      expect(inputTextList[2]).has.property('value');
+      expect(inputTextList[2]).has.property('multi');
+      expect(inputTextList[2].type).is.equal('text');
+      expect(inputTextList[2].multi).is.true;
+      expect(inputTextList[2].name).is.equal('textC');
+      expect(inputTextList[2].value).is.equal('3\n4');
+
+      // @todo: valueAsNumber, valueAsDate
+    });
+
+    it('should has correct Shadow DOM value', function () {
+      expect(inputTextList[0].shadowRoot).is.an.instanceof(ShadowRoot);
+      expect(inputTextList[0].shadowRoot.querySelector('input')).is.an.instanceof(HTMLElement);
+      expect(inputTextList[0].shadowRoot.querySelector('input').type).is.equal('text');
+      expect(inputTextList[0].shadowRoot.querySelector('input').value).is.equal('1');
+
+      expect(inputTextList[1].shadowRoot).is.an.instanceof(ShadowRoot);
+      expect(inputTextList[1].shadowRoot.querySelector('input')).is.an.instanceof(HTMLElement);
+      expect(inputTextList[1].shadowRoot.querySelector('input').type).is.equal('password');
+      expect(inputTextList[1].shadowRoot.querySelector('input').value).is.equal('2');
+
+      expect(inputTextList[2].shadowRoot).is.an.instanceof(ShadowRoot);
+      expect(inputTextList[2].shadowRoot.querySelector('textarea')).is.an.instanceof(HTMLElement);
+      expect(inputTextList[2].shadowRoot.querySelector('textarea').value).is.equal('3\n4');
+    });
+  });
+
+  describe('input select element usage', function () {
+    var inputSelectList = Array.prototype.slice.call(document.querySelectorAll('z-input-select'));
+
+    it('should has a list of `HTMLElement`', function () {
+      expect(inputSelectList).is.an.instanceof(Array)
+      inputSelectList.forEach(function (input) {
+        expect(input).is.an.instanceof(HTMLElement);
+      });
+    });
+
+    it('should has correct select value', function () {
+
+      inputSelectList.forEach(function (input) {
+        expect(input).has.property('name');
+        expect(input).has.property('value');
+        expect(input).has.property('values');
+        expect(input).has.property('flatten');
+        expect(input).has.property('multi');
+        expect(input).has.property('isFlatten');
+      });
+
+      expect(inputSelectList[0].name).is.equal('selectAuto');
+      expect(inputSelectList[0].value).is.equal('option2');
+      expect(inputSelectList[0].flatten).is.equal('auto');
+      expect(inputSelectList[0].multi).is.false;
+      expect(inputSelectList[0].isFlatten).is.true;
+
+      expect(inputSelectList[1].name).is.equal('selectAuto2');
+      expect(inputSelectList[1].value).is.equal('option2');
+      expect(inputSelectList[1].flatten).is.equal('auto');
+      expect(inputSelectList[1].multi).is.false;
+      expect(inputSelectList[1].isFlatten).is.false;
+
+      expect(inputSelectList[2].name).is.equal('selectFlatten');
+      expect(inputSelectList[2].value).is.equal('option2');
+      expect(inputSelectList[2].flatten).is.equal('true');
+      expect(inputSelectList[2].multi).is.false;
+      expect(inputSelectList[2].isFlatten).is.true;
+
+      expect(inputSelectList[3].name).is.equal('selectFlatten2');
+      expect(inputSelectList[3].value).is.equal('option2');
+      expect(inputSelectList[3].flatten).is.equal('true');
+      expect(inputSelectList[3].multi).is.false;
+      expect(inputSelectList[3].isFlatten).is.true;
+
+      expect(inputSelectList[4].name).is.equal('selectNoFlatten');
+      expect(inputSelectList[4].value).is.equal('option2');
+      expect(inputSelectList[4].flatten).is.equal('false');
+      expect(inputSelectList[4].multi).is.false;
+      expect(inputSelectList[4].isFlatten).is.false;
+
+      expect(inputSelectList[5].name).is.equal('selectNoFlatten2');
+      expect(inputSelectList[5].value).is.equal('option2');
+      expect(inputSelectList[5].flatten).is.equal('false');
+      expect(inputSelectList[5].multi).is.false;
+      expect(inputSelectList[5].isFlatten).is.false;
+
+      expect(inputSelectList[6].name).is.equal('selectMulti');
+      expect(inputSelectList[6].values).is.eql(['option2']);
+      expect(inputSelectList[6].flatten).is.equal('auto');
+      expect(inputSelectList[6].multi).is.true;
+      expect(inputSelectList[6].isFlatten).is.true;
+
+      expect(inputSelectList[7].name).is.equal('selectMulti2');
+      expect(inputSelectList[7].values).is.eql(['option2']);
+      expect(inputSelectList[7].flatten).is.equal('auto');
+      expect(inputSelectList[7].multi).is.true;
+      expect(inputSelectList[7].isFlatten).is.false;
+
+      expect(inputSelectList[8].name).is.equal('selectMultiFlatten');
+      expect(inputSelectList[8].values).is.eql(['option2']);
+      expect(inputSelectList[8].flatten).is.equal('true');
+      expect(inputSelectList[8].multi).is.true;
+      expect(inputSelectList[8].isFlatten).is.true;
+
+      expect(inputSelectList[9].name).is.equal('selectMultiFlatten2');
+      expect(inputSelectList[9].values).is.eql(['option2']);
+      expect(inputSelectList[9].flatten).is.equal('true');
+      expect(inputSelectList[9].multi).is.true;
+      expect(inputSelectList[9].isFlatten).is.true;
+
+      expect(inputSelectList[10].name).is.equal('selectMultiNoFlatten');
+      expect(inputSelectList[10].values).is.eql(['option2']);
+      expect(inputSelectList[10].flatten).is.equal('false');
+      expect(inputSelectList[10].multi).is.true;
+      expect(inputSelectList[10].isFlatten).is.false;
+
+      expect(inputSelectList[11].name).is.equal('selectMultiNoFlatten2');
+      expect(inputSelectList[11].values).is.eql(['option2']);
+      expect(inputSelectList[11].flatten).is.equal('false');
+      expect(inputSelectList[11].multi).is.true;
+      expect(inputSelectList[11].isFlatten).is.false;
+    });
+
+    it('should has correct Shadow DOM value', function () {
+
+      inputSelectList.forEach(function (input) {
+        var options;
+
+        expect(input.shadowRoot).is.an.instanceof(ShadowRoot);
+        if (input.isFlatten) {
+          options = Array.prototype.slice.call(input.shadowRoot.querySelectorAll('input'));
+          options.forEach(function (option, index) {
+            expect(option).is.an.instanceof(HTMLElement);
+            expect(option.name).is.equal(input.name);
+            expect(option.value).is.equal('option' + (index + 1));
+            if (option.value === 'option2') {
+              expect(option.checked).is.true;
+            }
+            else {
+              expect(option.checked).is.false;
+            }
+          });
+        }
+        else {
+          expect(input.shadowRoot.querySelector('select')).is.an.instanceof(HTMLElement);
+          if (!input.multi) {
+            expect(input.shadowRoot.querySelector('select').value).is.equal('option2');
+          }
+          else {
+            expect(Array.prototype.map.call(input.shadowRoot.querySelector('select').selectedOptions, function (option) {
+              return option.value;
+            })).is.eql(['option2']);
+          }
+          options = Array.prototype.slice.call(input.shadowRoot.querySelectorAll('select > option'));
+          options.forEach(function (option, index) {
+            expect(option).is.an.instanceof(HTMLElement);
+            expect(option.value).is.equal('option' + (index + 1));
+            expect(option.selected).is.equal(option.value === 'option2');
+          });
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

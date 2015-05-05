@@ -1,0 +1,62 @@
+<!--
+  # input-form
+
+  表单结构，分为横向/纵向/平铺三种布局
+
+  ## Attributes
+
+  * `[vertical]`: 纵向 (默认)
+  * `[oneline]`: 横向
+  * `[flatten]`: 平铺
+
+  ## Example
+
+  ```html
+  <z-form>
+    <z-input-text name="username" label="Username"></z-input-text>
+    <z-input-text name="password" type="password" label="Password"></z-input-text>
+    <z-input-space label="">
+      <z-btn>Login</z-btn>
+    </z-input-space>
+  </z-form>
+  ```
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+
+<polymer-element name="z-form" attributes="" noscript>
+  <template>
+    <style>
+      :host {display: block;}
+
+      ::content z-input-text,
+      ::content z-input-select,
+      ::content z-input-space {display: block;}
+
+      :host([flatten]) ::content z-input-text,
+      :host([flatten]) ::content z-input-select,
+      :host([flatten]) ::content z-input-space {display: flex;}
+
+      :host([flatten]) ::content z-input-text::shadow .label,
+      :host([flatten]) ::content z-input-select::shadow .label,
+      :host([flatten]) ::content z-input-space::shadow .label {max-width: 120px; width: 30%; text-align: right; margin-right: 1.6%;}
+
+      :host([flatten]) ::content z-input-text::shadow .main,
+      :host([flatten]) ::content z-input-select::shadow .main,
+      :host([flatten]) ::content z-input-space::shadow .main {flex: 1; margin-top: 3px;}
+
+      :host([oneline]) ::content z-input-text,
+      :host([oneline]) ::content z-input-select,
+      :host([oneline]) ::content z-input-space {display: inline-block;}
+
+      :host([oneline]) ::content z-input-text::shadow .label,
+      :host([oneline]) ::content z-input-select::shadow .label,
+      :host([oneline]) ::content z-input-space::shadow .label {display: inline-block;}
+
+      :host([oneline]) ::content z-input-text::shadow .main,
+      :host([oneline]) ::content z-input-select::shadow .main,
+      :host([oneline]) ::content z-input-space::shadow .main {display: inline-block; margin-top: 3px;}
+    </style>
+    <content></content>
+  </template>
+</polymer-element>
