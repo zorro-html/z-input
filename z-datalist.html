@@ -63,6 +63,9 @@
         },
 
         fireUpdate: function () {
+          if (this.parentNode && this.parentNode.updateOptions) {
+            this.parentNode.updateOptions({detail: {list: this.value}});
+          }
           this.fire('dataupdated', {list: this.value});
         },
 
